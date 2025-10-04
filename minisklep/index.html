@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Twój Sklep – Sprzedawaj za darmo</title>
+  <meta name="description" content="Lekki, darmowy sklep – wrzuć na GitHub Pages/Netlify. Bez backendu, gotowy w 5 minut." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0c10;--card:#111319;--muted:#717a8a;--text:#e6e8ef;--brand:#7c5cff;--brand-2:#5ad7ff;--ok:#1dd1a1;--danger:#ff6b6b}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:linear-gradient(180deg,#0b0c10, #0d0f16 40%, #11131a 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    a{color:inherit}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:rgba(11,12,16,.7);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid rgba(255,255,255,.06);z-index:50}
+    .row{display:flex;align-items:center;gap:16px;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.2px}
+    .badge{font-size:12px;padding:4px 8px;border-radius:999px;background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#0b0c10;font-weight:800}
+    .btn{border:0;border-radius:14px;padding:12px 16px;font-weight:700;background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#0b0c10;cursor:pointer;transition:transform .08s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(124,92,255,.35)}
+    .btn.secondary{background:#171a22;color:var(--text);border:1px solid rgba(255,255,255,.08)}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center;padding:28px 0}
+    .hero h1{font-size:40px;line-height:1.05;margin:0 0 10px}
+    .hero p{margin:0;color:var(--muted)}
+    .hero .card{background:radial-gradient(1200px 500px at -10% -40%,rgba(124,92,255,.25),transparent),radial-gradient(800px 400px at 120% -20%,rgba(90,215,255,.15),transparent),var(--card);border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:22px}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    @media (max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:620px){.grid{grid-template-columns:1fr}}
+    .product{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+    .product img{width:100%;height:210px;object-fit:cover;background:#0e1118}
+    .p-body{padding:14px 14px 5px}
+    .p-title{font-weight:800;margin:0 0 6px}
+    .p-desc{color:var(--muted);font-size:14px;min-height:38px}
+    .p-foot{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 16px}
+    .price{font-weight:800}
+    .qty{display:flex;align-items:center;gap:6px}
+    .qty button{width:28px;height:28px;border-radius:10px;border:1px solid rgba(255,255,255,.08);background:#171a22;color:var(--text);cursor:pointer}
+    .cart-fab{position:fixed;right:18px;bottom:18px;background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#0b0c10;border:0;border-radius:999px;font-weight:800;padding:14px 18px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 24px rgba(124,92,255,.3);cursor:pointer;z-index:60}
+    .cart-panel{position:fixed;inset:0 0 0 auto;width:min(420px,90vw);background:#0d1016;border-left:1px solid rgba(255,255,255,.08);transform:translateX(100%);transition:transform .25s ease;z-index:70;display:flex;flex-direction:column}
+    .cart-panel.open{transform:translateX(0)}
+    .cart-head{padding:16px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between}
+    .cart-items{padding:12px;flex:1;overflow:auto}
+    .cart-item{display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;padding:10px;border-bottom:1px dashed rgba(255,255,255,.06)}
+    .cart-item img{width:60px;height:60px;border-radius:10px;object-fit:cover}
+    .cart-foot{padding:16px;border-top:1px solid rgba(255,255,255,.08)}
+    .muted{color:var(--muted)}
+    .tag{font-size:12px;padding:2px 8px;border:1px solid rgba(255,255,255,.1);border-radius:999px;color:var(--muted)}
+    .notice{background:#0f1320;border:1px solid rgba(124,92,255,.35);border-radius:16px;padding:12px;font-size:14px;color:#cfd5e7}
+    footer{padding:32px 0;color:var(--muted);text-align:center}
+    .links{display:flex;gap:10px;flex-wrap:wrap}
+    .links a{padding:8px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.08)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container row">
+      <div class="brand">
+        <span class="badge">NOWOŚĆ</span>
+        <span>Twój Sklep</span>
+      </div>
+      <div class="links">
+        <a href="#produkty">Produkty</a>
+        <a href="#jak-kupic">Jak kupić?</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>Sprzedawaj prosto i <span style="background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent">za darmo</span></h1>
+        <p>Ta strona to lekki sklep statyczny: hostujesz bezpłatnie (GitHub Pages/Netlify), płatność przez link (Stripe/PayPal/PayU/Przelewy24) – bez programowania backendu.</p>
+        <div style="height:12px"></div>
+        <div class="notice">🔧 <b>Jak dostosować?</b> Zmień produkty w <code>const PRODUCTS</code> oraz podmień <code>paymentLink</code> na swój link do płatności. Możesz dodać znacznik <code>?quantity=</code> jeżeli Twój dostawca płatności to wspiera.</div>
+      </div>
+      <div class="card">
+        <b>Szybki start (3 kroki):</b>
+        <ol>
+          <li>Edytuj nazwy/ceny/zdjęcia poniżej.</li>
+          <li>Wklej linki do płatności (Stripe Payment Link, PayPal "Kup teraz" itp.).</li>
+          <li>Wgraj plik na <u>GitHub Pages</u> lub <u>Netlify</u> – gotowe ✅</li>
+        </ol>
+        <div style="height:10px"></div>
+        <span class="tag">PLN</span>
+        <span class="tag">Szybkie płatności</span>
+        <span class="tag">Darmowy hosting</span>
+      </div>
+    </section>
+
+    <h2 id="produkty">Produkty</h2>
+    <div class="grid" id="productGrid"></div>
+
+    <section id="jak-kupic" style="margin-top:28px">
+      <h3>Jak kupić?</h3>
+      <p class="muted">Dodaj produkty do koszyka, kliknij „Zapłać”, a przekierujemy Cię na bezpieczną stronę płatności. Po transakcji sprzedawca skontaktuje się z Tobą mailowo.</p>
+    </section>
+
+    <section id="kontakt" style="margin-top:28px">
+      <h3>Kontakt</h3>
+      <p class="muted">Masz pytanie? Napisz: <a href="mailto:kontakt@twojsklep.pl">kontakt@twojsklep.pl</a> lub IG: <a href="#">@twojsklep</a></p>
+    </section>
+
+  </main>
+
+  <button class="cart-fab" id="openCartBtn">🛒 <span id="cartCount">0</span> • <span id="cartTotal">0,00 zł</span></button>
+
+  <aside class="cart-panel" id="cartPanel" aria-hidden="true">
+    <div class="cart-head">
+      <b>Twój koszyk</b>
+      <button class="btn secondary" id="closeCartBtn">Zamknij</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-foot">
+      <div class="row" style="gap:10px">
+        <div>
+          <div class="muted">Suma</div>
+          <div id="sumValue" style="font-weight:800;font-size:18px">0,00 zł</div>
+        </div>
+        <div style="flex:1"></div>
+        <button class="btn secondary" id="clearBtn">Wyczyść</button>
+        <button class="btn" id="payBtn">Zapłać</button>
+      </div>
+      <div style="height:10px"></div>
+      <div class="notice">💡 <b>Uwaga:</b> Przycisk „Zapłać” otwiera link do płatności dla <i>każdej</i> pozycji w koszyku. Jeżeli Twój operator wspiera sumaryczne koszyki – wklej taki link jako <code>PAYMENT_CHECKOUT_ALL</code> w konfiguracji.</div>
+    </div>
+  </aside>
+
+  <script>
+    // ======= KONFIGURACJA =======
+    const CURRENCY = 'PLN'; // tylko do wyświetlania
+    const PAYMENT_CHECKOUT_ALL = '';
+    const PRODUCTS = [
+      {
+        id: 'tshirt01',
+        title: 'Koszulka Streetwear',
+        desc: 'Bawełniana koszulka premium 180gsm.',
+        price: 99.00,
+        image: 'https://images.unsplash.com/photo-1520975698519-59c1a8c0f3a4?q=80&w=1200&auto=format&fit=crop',
+        paymentLink: 'https://twoj-operator-platnosci.com/pay/tshirt01'
+      },
+      {
+        id: 'mug01',
+        title: 'Kubek ceramiczny „Good Vibes”',
+        desc: 'Biały kubek 330ml z nadrukiem.',
+        price: 39.90,
+        image: 'https://images.unsplash.com/photo-1606312619070-3d1a6e8409cc?q=80&w=1200&auto=format&fit=crop',
+        paymentLink: 'https://twoj-operator-platnosci.com/pay/mug01'
+      },
+      {
+        id: 'poster01',
+        title: 'Plakat motywacyjny A2',
+        desc: 'Designerski plakat na ścianę, format A2.',
+        price: 59.00,
+        image: 'https://images.unsplash.com/photo-1513355651677-9ef9a56f1da3?q=80&w=1200&auto=format&fit=crop',
+        paymentLink: 'https://twoj-operator-platnosci.com/pay/poster01'
+      },
+      {
+        id: 'book01',
+        title: 'Książka „Biznes Online od Zera”',
+        desc: 'Praktyczny poradnik jak zacząć sprzedaż w internecie.',
+        price: 79.00,
+        image: 'https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=1200&auto=format&fit=crop',
+        paymentLink: 'https://twoj-operator-platnosci.com/pay/book01'
+      },
+      {
+        id: 'gadget01',
+        title: 'Powerbank 10 000 mAh',
+        desc: 'Kompaktowy powerbank z szybkim ładowaniem i portem USB-C.',
+        price: 129.00,
+        image: 'https://images.unsplash.com/photo-1583225151627-7c8c6f0b8f6f?q=80&w=1200&auto=format&fit=crop',
+        paymentLink: 'https://twoj-operator-platnosci.com/pay/gadget01'
+      },
+      // === SZABLON DO KOPIOWANIA ===
+      {
+        id: 'newProduct01', // unikalne ID produktu (bez spacji)
+        title: 'Nazwa produktu', // nazwa wyświetlana
+        desc: 'Krótki opis produktu.',
+        price: 0.00, // cena w PLN
+        image: 'https://via.placeholder.com/400x300?text=Nowy+produkt', // link do zdjęcia
+        paymentLink: 'https://twoj-operator-platnosci.com/pay/newProduct01' // link do płatności
+      }
+    ];
+
+    // ======= UTIL =======
+    const fmtPLN = (n) => n.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' });
+    const saveCart = (c) => localStorage.setItem('cart', JSON.stringify(c));
+    const loadCart = () => JSON.parse(localStorage.getItem('cart') || '[]');
+    const byId = (id) => document.getElementById(id);
+
+    // ======= RENDER PRODUKTÓW =======
+    const grid = byId('productGrid');
+    function renderProducts(){
+      grid.innerHTML = PRODUCTS.map(p => `
+        <article class="product">
+          <img src="${p.image}" alt="${p.title}">
+          <div class="p-body">
+            <h3 class="p-title">${p.title}</h3>
+            <p class="p-desc">${p.desc}</p>
+          </div>
+          <div class="p-foot">
+            <span class="price">${fmtPLN(p.price)}</span>
+            <div class="qty">
+              <button onclick="changeQty('${p.id}',-1)">–</button>
+              <span id="qty-${p.id}">0</span>
+              <button onclick="changeQty('${p.id}',1)">+</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    // ======= KOSZYK =======
+    let CART = loadCart();
+    function syncQtyBadges(){
+      PRODUCTS.forEach(p=>{
+        const el = byId('qty-'+p.id);
+        if(el) el.textContent = (CART.find(i=>i.id===p.id)?.qty)||0;
+      });
+    }
+
+    function changeQty(id, delta){
+      const p = PRODUCTS.find(x=>x.id===id);
+      if(!p) return;
+      const item = CART.find(i=>i.id===id);
+      if(!item){
+        if(delta>0){ CART.push({id, qty:1}); }
+      } else {
+        item.qty += delta;
+        if(item.qty<=0){ CART = CART.filter(i=>i.id!==id); }
+      }
+      updateCartUI();
+    }
+
+    function cartTotal(){
+      return CART.reduce((sum,i)=>{
+        const p = PRODUCTS.find(x=>x.id===i.id);
+        return sum + (p?p.price:0)*i.qty;
+      },0);
+    }
+
+    function renderCartItems(){
+      const wrap = byId('cartItems');
+      if(CART.length===0){ wrap.innerHTML = '<p class="muted">Koszyk jest pusty.</p>'; return; }
+      wrap.innerHTML = CART.map(i=>{
+        const p = PRODUCTS.find(x=>x.id===i.id);
+        return `
+          <div class="cart-item">
+            <img src="${p.image}" alt="${p.title}">
+            <div>
+              <div style="font-weight:700">${p.title}</div>
+              <div class="muted">${fmtPLN(p.price)} • x${i.qty}</div>
+            </div>
+            <div class="qty">
+              <button onclick="changeQty('${i.id}',-1)">–</button>
+              <span>${i.qty}</span>
+              <button onclick="changeQty('${i.id}',1)">+</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function updateCartUI(){
+      saveCart(CART);
+      syncQtyBadges();
+      renderCartItems();
+      const total = cartTotal();
+      byId('cartCount').textContent = CART.reduce((s,i)=>s+i.qty,0);
+      byId('cartTotal').textContent = fmtPLN(total);
+      byId('sumValue').textContent = fmtPLN(total);
+    }
+
+    function openCart(open=true){
+      const panel = byId('cartPanel');
+      if(open){ panel.classList.add('open'); panel.setAttribute('aria-hidden','false'); }
+      else { panel.classList.remove('open'); panel.setAttribute('aria-hidden','true'); }
+    }
+
+    // ======= CHECKOUT =======
+    function pay(){
+      if(CART.length===0) return alert('Koszyk jest pusty');
+      if(PAYMENT_CHECKOUT_ALL){
+        window.open(PAYMENT_CHECKOUT_ALL,'_blank');
+        return;
+      }
+      // Fallback: otwieramy po kolei linki płatności dla pozycji
+      CART.forEach(i=>{
+        const p = PRODUCTS.find(x=>x.id===i.id);
+        if(!p?.paymentLink) return;
+        const link = p.paymentLink + (p.paymentLink.includes('?') ? '&' : '?') + 'quantity=' + encodeURIComponent(i.qty);
+        window.open(link,'_blank');
+      });
+    }
+
+    // ======= INIT =======
+    renderProducts();
+    updateCartUI();
+
+    // UI actions
+    byId('openCartBtn').addEventListener('click',()=>openCart(true));
+    byId('closeCartBtn').addEventListener('click',()=>openCart(false));
+    byId('clearBtn').addEventListener('click',()=>{ CART=[]; updateCartUI(); });
+    byId('payBtn').addEventListener('click',pay);
+  </script>
+  <footer>
+    <div class="container">
+      © <span id="y"></span> Twój Sklep • Zrobione z ❤ i kawą
+    </div>
+  </footer>
+  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+</body>
+</html>
