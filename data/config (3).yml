@@ -1,0 +1,27 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "store"
+    label: "Sklep"
+    files:
+      - file: "data/products.json"
+        label: "Produkty"
+        name: "products"
+        format: "json"
+        fields:
+          - label: "Produkty"
+            name: "items"
+            widget: "list"
+            allow_add: true
+            fields:
+              - { label: "ID", name: "id", widget: "string" }
+              - { label: "Nazwa", name: "title", widget: "string" }
+              - { label: "Opis", name: "desc", widget: "text" }
+              - { label: "Cena (PLN)", name: "price", widget: "number", value_type: "float" }
+              - { label: "Obrazek", name: "image", widget: "image" }
+              - { label: "Link do płatności", name: "paymentLink", widget: "string" }
